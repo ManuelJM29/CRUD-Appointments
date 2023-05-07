@@ -8,7 +8,7 @@ import (
 func main() {
 
 	//Conexion a la base de datos
-	client, err := database.ConncetDB()
+	client, err := database.ConnectDB()
 
 	if err != nil {
 		log.Fatal(err)

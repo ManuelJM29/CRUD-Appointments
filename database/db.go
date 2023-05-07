@@ -2,16 +2,18 @@ package database
 
 import (
 	"context"
+	"crud-appointments/models"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func ConncetDB() (*mongo.Client, error) {
+func ConnectDB() (*mongo.Client, error) {
 
 	// Configuracion de las opciones de conexion
-	clientOptions := options.Client().ApplyURI("mongodb+srv://manueljimenezm:<kbDC1fdhIGRNH5E9>@crud-appointments-db.wtbadxo.mongodb.net/?retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 
 	//Conexion al servidor MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -30,5 +32,22 @@ func ConncetDB() (*mongo.Client, error) {
 	}
 
 	return client, nil
+}
 
+func NewAppointment(appointment *models.Appointment) error {
+	client, err := ConnectDB()
+	if err != nil {
+		return err
+	}
+
+	collection := client.Database("crud-appointments-db").Collection("appointments")
+
+	fmt.Printf("Appointment before insert: %+v\n", appointment)
+
+	_, err = collection.InsertOne(context.Background(), appointment)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
