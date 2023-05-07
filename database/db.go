@@ -11,7 +11,7 @@ import (
 func ConncetDB() (*mongo.Client, error) {
 
 	// Configuracion de las opciones de conexion
-	clientOptions := options.Client().ApplyURI("<url>")
+	clientOptions := options.Client().ApplyURI("mongodb+srv://manueljimenezm:<kbDC1fdhIGRNH5E9>@crud-appointments-db.wtbadxo.mongodb.net/?retryWrites=true&w=majority")
 
 	//Conexion al servidor MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
