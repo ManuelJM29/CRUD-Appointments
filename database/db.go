@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"crud-appointments/models"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -41,6 +42,7 @@ func GetCollection(collectionName string) *mongo.Collection {
 		return nil
 	}
 	collection := client.Database("crud-appointments-db").Collection(collectionName)
+
 	return collection
 }
 
@@ -120,14 +122,18 @@ func UpdateAppointment(appointment models.Appointment) (*mongo.UpdateResult, err
 	return result, nil
 }
 
-func DeleteAppointmentByID(id primitive.ObjectID) error {
+func DeleteAppointmentByID(id string) error {
+	objectID, _ := primitive.ObjectIDFromHex(id)
 	collection := GetCollection("appointments")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
+	result, err := collection.DeleteOne(ctx, bson.M{"_id": objectID})
 	if err != nil {
 		return err
+	}
+	if result.DeletedCount == 0 {
+		return fmt.Errorf("No se encontró la cita con ID %s", id)
 	}
 	return nil
 }

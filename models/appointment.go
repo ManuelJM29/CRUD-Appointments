@@ -7,9 +7,9 @@ import (
 )
 
 type Appointment struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id, omitempty"`
-	Patient     string             `json:"patient" bson:"patient, omitempty"`
-	Description string             `json:"description" bson:"description, omitempty"`
-	StartDate   time.Time          `json:"start_date" bson:"start_date, omitempty"`
-	UpdateDate  time.Time          `json:"end_date" bson:"end_date, omitempty"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	Patient     string             `json:"patient" bson:"patient" validate:"required"`
+	Description string             `json:"description" bson:"description" validate:"required"`
+	StartDate   time.Time          `json:"start_date" bson:"start_date" validate:"required"`
+	UpdateDate  time.Time          `json:"update_date" bson:"update_date" validate:"required"`
 }

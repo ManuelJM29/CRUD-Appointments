@@ -7,7 +7,7 @@ import (
 )
 
 func SetAppointmentRoutes(router *mux.Router) {
-	router.HandleFunc("/", handlers.Homepage).Methods("GET")
+	router.HandleFunc("/healthcheck", handlers.HealthCheck).Methods("GET")
 	router.HandleFunc("/appointments", handlers.CreateAppointment).Methods("POST")
 	router.HandleFunc("/appointments", handlers.GetAppointments).Methods("GET")
 	router.HandleFunc("/appointments/{id}", handlers.GetAppointmentByID).Methods("GET")
